@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+		<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZTF90E5G8K"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-ZTF90E5G8K');
+	</script>
+	<title>Waffle Scuffle</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static "css/index.css"%}"/>
+	<link rel="icon" href="{% static "calendar.png"%}"/>
+</head>
+<body style="background-color: #ffffff;">
+	<div id="main">
+		<div id="app">
+
+		</div>
+	</div>
+	<script type="text/javascript" src="{% static "frontend/main.js"%}"></script>
+</body>
+</html>

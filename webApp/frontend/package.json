@@ -1,0 +1,38 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Front end for web app",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production"
+  },
+  "author": "luongquangminh23@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.18.6",
+    "@babel/preset-env": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
+    "babel-loader": "^8.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.1.6",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@material-ui/core": "^5.0.0-beta.5",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/base": "^5.0.0-alpha.92",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "5.0.0-alpha.51",
+    "@mui/material": "^5.9.3",
+    "node-fetch": "^3.2.9",
+    "react-intersection-observer": "^9.4.0",
+    "react-router-dom": "^6.3.0",
+    "webpack-dev-server": "^4.9.3"
+  }
+}
