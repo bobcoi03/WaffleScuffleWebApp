@@ -6,6 +6,15 @@ Python3.6+
 Mysql 8
 
 Initial setup
+
+Create a mysql user and database give user all privileges for that db
+SET environment variables
+RDS_DB_NAME=<your db name>
+RDS_USERNAME=<username of mysql user>
+RDS_PASSWORD=<password of mysql user>
+RDS_HOSTNAME=127.0.0.1
+RDS_PORT=3306
+
 1. python3 -m venv env #create virtual environment
 2. source env/bin/activate #activate virtual environment
 3. pip install -r requirements.txt #install pip dependancies
