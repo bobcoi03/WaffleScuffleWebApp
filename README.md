@@ -10,9 +10,9 @@ Initial setup
 0.
 Create a mysql user and database give user all privileges for that db
 SET environment variables
-RDS_DB_NAME=<your db name>
-RDS_USERNAME=<username of mysql user>
-RDS_PASSWORD=<password of mysql user>
+RDS_DB_NAME=your db name
+RDS_USERNAME=username of mysql user
+RDS_PASSWORD=password of mysql user
 RDS_HOSTNAME=127.0.0.1
 RDS_PORT=3306
 
