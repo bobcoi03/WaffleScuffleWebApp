@@ -249,6 +249,9 @@ def get_friends_user_objects(request):
     else:
         return HttpResponse("This endpoint only accepts GET requests")
 
+@login_required
+
+
 def get_user_extended_object_by_pk(request, user_pk):
     if request.method == 'GET':
         user = User.objects.get(pk=user_pk)
