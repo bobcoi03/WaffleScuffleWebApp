@@ -7,6 +7,7 @@ Mysql 8
 
 Initial setup
 
+0.
 Create a mysql user and database give user all privileges for that db
 SET environment variables
 RDS_DB_NAME=<your db name>
