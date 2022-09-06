@@ -7,14 +7,19 @@ Mysql 8
 
 Initial setup
 
-0.
-Create a mysql user and database give user all privileges for that db
-SET environment variables
-RDS_DB_NAME=your db name
-RDS_USERNAME=username of mysql user
-RDS_PASSWORD=password of mysql user
-RDS_HOSTNAME=127.0.0.1
-RDS_PORT=3306
+Database setup
+
+0. Create a mysql user and database give user all privileges for that db
+1. SET environment variables
+2. RDS_DB_NAME=your db name
+3. RDS_USERNAME=username of mysql user
+4. RDS_PASSWORD=password of mysql user
+5. RDS_HOSTNAME=127.0.0.1
+6. RDS_PORT=3306
+
+------------------------------------------------------------
+
+App setup
 
 1. python3 -m venv env #create virtual environment
 2. source env/bin/activate #activate virtual environment
