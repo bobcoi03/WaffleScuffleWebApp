@@ -43,7 +43,7 @@ def create_user(request):
         user = User.objects.create_user(username=username, email=email, password=password,first_name=first_name, last_name=last_name)
         userExtended = UserExtended(user=user)
         userExtended.save()
-        send_account_confirmation_email(user.email, user)
+        #send_account_confirmation_email(user.email, user)
         return HttpResponse("successfully created user")
 
 @csrf_protect
