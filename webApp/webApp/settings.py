@@ -39,19 +39,13 @@ CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://wafflescuffle.com', 'https:/
 # S3 Bucket Configurations
 # Only include this if saving media files to s3 bucket
 # 
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-
-AWS_S3_FILE_OVERWRITE = False
-
-AWS_DEFAULT_ACL = None
-
-AWS_QUERYSTRING_AUTH = False
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-AWS_S3_REGION_NAME = "us-west-2"
-
-AWS_S3_ADDRESSING_STYLE = "virtual"
+#AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+#AWS_S3_FILE_OVERWRITE = False
+#AWS_DEFAULT_ACL = None
+#AWS_QUERYSTRING_AUTH = False
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#AWS_S3_REGION_NAME = "us-west-2"
+#AWS_S3_ADDRESSING_STYLE = "virtual"
 
 # Application definition
 
@@ -67,7 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'storages', # DELETE IF USING STORING MEDIA FILES LOCALLY
+    #'storages', # DELETE IF USING STORING MEDIA FILES LOCALLY
     'friendship',
 ]
 
