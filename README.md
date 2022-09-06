@@ -5,16 +5,19 @@ Requires:
 Python3.6+
 Mysql 8
 
-To run locally
-1. cd webApp
-2. python3 manage.py runserver
-
 Initial setup
 1. python3 -m venv env #create virtual environment
 2. source env/bin/activate #activate virtual environment
 3. pip install -r requirements.txt #install pip dependancies
-3. cd webApp
-3. python3 manage.py runserver
+4. cd webApp/frontend
+5. npm install
+6. cd webApp
+7. python3 manage.py createsuperuser
+7. python3 manage.py migrate
+8. python3 manage.py collectstatic
+9. python3 manage.py runserver
+
+
 
 STEPS TO UPDATE TO EC2 Server
 1. npm run build in /frontend app
