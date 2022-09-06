@@ -85,7 +85,7 @@ class HomePageSignedOut extends Component{
 					<ThemeProvider theme={theme}>
 						<NavBar/>
 						<Grid container spacing={3} component="main" sx={{ height:'100vh'}}>
-							<Grids
+							<Grid
 								item
 				          		xs={false}
 				          		sm={3}

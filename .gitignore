@@ -6,7 +6,12 @@ bin-release/
 
 # Other files and folders
 .settings/
-
+node_modules
+node_mudles/
+__pycache__
+__pycache__/
+env
+env/
 # Executables
 *.swf
 *.air
