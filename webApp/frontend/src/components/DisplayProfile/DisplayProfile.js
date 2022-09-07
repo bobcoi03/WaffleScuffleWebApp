@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -27,7 +28,8 @@ class DisplayProfile extends React.Component {
 						pathToProfileImage: "",
 						areFriends: null,
 						toggleDisplaySnackBar: false,
-						friendRequestResponseMessage: ""
+						friendRequestResponseMessage: "",
+						ifUserHasSentFriendRequest: null
 		}
 	}
 
@@ -91,12 +93,37 @@ class DisplayProfile extends React.Component {
 		.then(res => res.text())
 		.then(data => {
 			var isBool = (data === 'true')
+
+			if (isBool == false) {
+				this.ifUserHasSentFriendRequest()
+			}
+
 			this.setState({
 				areFriends: isBool
 			})
 		})
 	}
 
+	ifUserHasSentFriendRequest = () => {
+		// if requesting user and user are not friends
+		// Check if this.props.pk user has sent a friend request to requesting user
+		fetch(ENV.url + `/user-auth/if-user-pk-has-sent-friend-request/user_pk=${this.props.pk}`,
+			{
+				headers: {
+					"method": "GET",
+					"Accept": "text/plain",
+					"Content-Type": "text/plain"
+				}
+			}
+		)
+		.then(res => res.text())
+		.then(data => {
+			var isBool = (data === 'true')
+			this.setState({
+				ifUserHasSentFriendRequest: isBool
+			})
+		})
+	}
 
 
 	sendFriendRequest = async () => {
@@ -152,6 +179,12 @@ class DisplayProfile extends React.Component {
 		// else add friend button
 		if (this.state.areFriends) {
 			return null
+		} else if (this.state.ifUserHasSentFriendRequest) {
+			return (
+				<Button size="small">
+					Accept friend request
+				</Button>
+			)
 		} else {
 			return (
 				<Tooltip title="Send friend request">
@@ -159,7 +192,7 @@ class DisplayProfile extends React.Component {
 						<AddIcon/>
 					</IconButton>
 				</Tooltip>
-				)
+			)
 		}
 	}
 
