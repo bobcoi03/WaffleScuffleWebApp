@@ -194,6 +194,9 @@ def send_friend_request(request, user_pk):
     """
     if request.method == 'POST':
         try:
+            if FriendshipRequest.objects.get(from_user=User.objects.get(pk=user_pk), to_user=request.user).exists():
+                return HttpResponse("friend request already sent to this user")
+
             Friend.objects.add_friend(
                 request.user,
                 User.objects.get(pk=user_pk)
@@ -205,6 +208,35 @@ def send_friend_request(request, user_pk):
         return HttpResponse("this endpoint only accepts POST requests")
 
 @login_required
+def get_sent_friend_requests(request):
+    """
+    Return user objects of users that the user making the
+    request has sent friend requests to
+    """
+    friend_requests_sent_to = [] # Contains User objects
+
+    if request.method == 'GET':
+        friend_requests = Friend.objects.sent_requests(user=request.user)
+        for obj in friend_requests:
+            friend_requests_sent_to.append(obj.to_user)
+
+        return HttpResponse(serialize("json", friend_requests_sent_to))
+
+@login_required
+def get_received_friend_requests(request):
+    """
+    Return user objects that have sent friend
+    requests to user making request
+    """
+    received_friend_requests = []
+    if request.method == 'GET':
+        unread_friend_requests = Friend.objects.unread_requests(user=request.user)
+        for obj in unread_friend_requests:
+            received_friend_requests.append(obj.from_user)
+
+        return HttpResponse(serialize("json", received_friend_requests))
+
+@login_required
 def accept_friend_request(request, user_pk):
     """
     user_pk is primary key of user that is sending the friend request
@@ -213,6 +245,10 @@ def accept_friend_request(request, user_pk):
         from_user = User.object.get(pk=user_pk)
         friend_request = FriendshipRequest.objects.get(from_user=from_user, to_user=request.user)
         friend_request.accept()
+
+        # delete sent friend request
+        friend_request.delete()
+
         return HttpResponse(f"Added {from_user.username} as friend")
 
 @login_required
@@ -225,6 +261,12 @@ def reject_friend_request(request, user_pk):
         friend_request = FriendshipRequest.objects.get(from_user=from_user, to_user=request.user)
         friend_request.reject()
         return HttpResponse(f"Rejected friend request from {from_user.username}")
+
+@login_required
+def if_sent_friend_request(request, user_pk):
+    if request.method == 'GET':
+        pass
+
 
 def if_already_friends(request, user_pk):
     """
@@ -242,15 +284,15 @@ def if_already_friends(request, user_pk):
 
 @login_required
 def get_friends_user_objects(request):
+    """
+    returns user objects of all friends of user making the request
+    """
     if request.method == 'GET':
         friends = Friend.objects.friends(request.user)
 
         return HttpResponse(serialize("json", friends))
     else:
         return HttpResponse("This endpoint only accepts GET requests")
-
-@login_required
-
 
 def get_user_extended_object_by_pk(request, user_pk):
     if request.method == 'GET':
