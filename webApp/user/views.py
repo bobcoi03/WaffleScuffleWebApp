@@ -194,7 +194,7 @@ def send_friend_request(request, user_pk):
     """
     if request.method == 'POST':
         try:
-            if FriendshipRequest.objects.get(from_user=User.objects.get(pk=user_pk), to_user=request.user).exists():
+            if FriendshipRequest.objects.get(to_user=User.objects.get(pk=user_pk), from_user=request.user).exists():
                 return HttpResponse("friend request already sent to this user")
 
             Friend.objects.add_friend(
@@ -218,6 +218,9 @@ def get_sent_friend_requests(request):
     if request.method == 'GET':
         friend_requests = Friend.objects.sent_requests(user=request.user)
         for obj in friend_requests:
+            # if user already friends with obj.to_user then skip
+            if Friend.objects.are_friends(request.user, obj.to_user):
+                continue
             friend_requests_sent_to.append(obj.to_user)
 
         return HttpResponse(serialize("json", friend_requests_sent_to))
@@ -262,12 +265,6 @@ def reject_friend_request(request, user_pk):
         friend_request.reject()
         return HttpResponse(f"Rejected friend request from {from_user.username}")
 
-@login_required
-def if_sent_friend_request(request, user_pk):
-    if request.method == 'GET':
-        pass
-
-
 def if_already_friends(request, user_pk):
     """
     This checks if request.user is already friends with User.objects.get(pk=user+pk)
@@ -281,6 +278,30 @@ def if_already_friends(request, user_pk):
             return HttpResponse("true")
         else:
             return HttpResponse("false")
+
+
+def if_user_pk_has_sent_friend_request(request, user_pk):
+    """
+    Check to see if user_pk has already sent a friend request to request.user
+    Should call this endpoint after calling if-already-friends to see if add
+    friend button should show or accept friend request button
+
+    """
+    if request.method == 'GET':
+        from_user = User.objects.get(pk=user_pk)
+        are_friends = Friend.objects.are_friends(request.user, User.objects.get(pk=user_pk))
+        if are_friends:
+            return HttpResponse("equesting user and User.objects.get(pk=user_pk) are already friends")
+        # If user_pk has already sent a friend request to request.user
+        if FriendshipRequest.objects.filter(from_user=from_user, to_user=request.user).exists():
+            return HttpResponse("true")
+            # should display accept friend request button
+        else:
+            return HttpResponse("false")
+            # Should display add friend button
+
+
+
 
 @login_required
 def get_friends_user_objects(request):

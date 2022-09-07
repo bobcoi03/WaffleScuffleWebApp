@@ -4,6 +4,10 @@ from . import views
 
 urlpatterns = [
 	path('create-user', views.create_user, name='create-user'),
+	path('if-user-pk-has-sent-friend-request/user_pk=<int:user_pk>', views.if_user_pk_has_sent_friend_request, name="if_user_pk_has_sent_friend_request"),
+	path('get-sent-friend-requests', views.get_sent_friend_requests, name="get_sent_friend_requests"),
+	path('get-received-friend-requests', views.get_received_friend_requests, name="get_received_friend_requests"),
+	path('accept-friend-request/user_pk=<int:user_pk>', views.accept_friend_request, name="accept_friend_request"),
 	path('get-user-extended-object-by-username/username=<str:username>', views.get_user_extended_object_by_username, name="get_user_extended_object_by_username"),
 	path('change-bio', views.change_bio, name="change_bio"),
 	path('reset-password', views.reset_password, name="reset_password"),
