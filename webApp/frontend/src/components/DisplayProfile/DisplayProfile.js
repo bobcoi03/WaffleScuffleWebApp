@@ -126,7 +126,7 @@ class DisplayProfile extends React.Component {
 	}
 
 
-	sendFriendRequest = async () => {
+	sendFriendRequest = () => {
 		fetch(ENV.url + `/user-auth/send-friend-request/user_pk=${this.props.pk}`,
 			{
 				method: "POST",
@@ -149,6 +149,26 @@ class DisplayProfile extends React.Component {
 			toggleDisplaySnackBar: true
 		})
 
+	}
+
+	acceptFriendRequest = () => {
+		fetch(ENV.url + `/user-auth/accept-friend-request/user_pk=${this.props.pk}`,
+			{
+				method: "POST",
+				body: null,
+				headers: {
+					"X-CSRFToken": getCookie("csrftoken"),
+			 		"Accept": "text/plain"
+				}
+			}
+		)
+		.then(res => res.text())
+		.then(data => {
+			this.setState({
+				friendRequestResponseMessage: data,
+				toggleDisplaySnackBar: true
+			})
+		})
 	}
 
 	RenderAvatar = () => {
@@ -181,7 +201,7 @@ class DisplayProfile extends React.Component {
 			return null
 		} else if (this.state.ifUserHasSentFriendRequest) {
 			return (
-				<Button size="small">
+				<Button size="small" onClick={this.acceptFriendRequest}>
 					Accept friend request
 				</Button>
 			)

@@ -194,7 +194,7 @@ def send_friend_request(request, user_pk):
     """
     if request.method == 'POST':
         try:
-            if FriendshipRequest.objects.get(to_user=User.objects.get(pk=user_pk), from_user=request.user).exists():
+            if FriendshipRequest.objects.filter(to_user=User.objects.get(pk=user_pk), from_user=request.user).exists():
                 return HttpResponse("friend request already sent to this user")
 
             Friend.objects.add_friend(
@@ -202,8 +202,10 @@ def send_friend_request(request, user_pk):
                 User.objects.get(pk=user_pk)
             )
             return HttpResponse("friend request sent!")
-        except Exception:
-            return HttpResponse("couldn't send friend request")
+        except Exception as e:
+            print(e)
+            print(e.__doc__)
+            return HttpResponse(f"{e}")
     else:
         return HttpResponse("this endpoint only accepts POST requests")
 
@@ -235,6 +237,8 @@ def get_received_friend_requests(request):
     if request.method == 'GET':
         unread_friend_requests = Friend.objects.unread_requests(user=request.user)
         for obj in unread_friend_requests:
+            if Friend.objects.are_friends(request.user, obj.from_user):
+                continue
             received_friend_requests.append(obj.from_user)
 
         return HttpResponse(serialize("json", received_friend_requests))
@@ -244,14 +248,11 @@ def accept_friend_request(request, user_pk):
     """
     user_pk is primary key of user that is sending the friend request
     """
-    if request.method == 'GET':
-        from_user = User.object.get(pk=user_pk)
+    if request.method == 'POST':
+        from_user = User.objects.get(pk=user_pk)
         friend_request = FriendshipRequest.objects.get(from_user=from_user, to_user=request.user)
         friend_request.accept()
-
-        # delete sent friend request
-        friend_request.delete()
-
+        
         return HttpResponse(f"Added {from_user.username} as friend")
 
 @login_required
@@ -278,7 +279,6 @@ def if_already_friends(request, user_pk):
             return HttpResponse("true")
         else:
             return HttpResponse("false")
-
 
 def if_user_pk_has_sent_friend_request(request, user_pk):
     """
