@@ -62,6 +62,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     #'storages', # DELETE IF USING STORING MEDIA FILES LOCALLY
+    'django_private_chat2.apps.DjangoPrivateChat2Config',
+    # 3rd party
+    'channels',
+    'django_extensions',
+    'chatApp.apps.ChatappConfig',
     'friendship',
 ]
 
@@ -147,6 +152,15 @@ STATIC_URL = '/static/'
 
 #for ubuntu SERVER
 STATIC_ROOT = '/home/ubuntu/ServerFiles/TakeAWalk/webApp/static/'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
+
+ASGI_APPLICATION = 'webApp.asgi.application'
+
 
 # For localhost
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')

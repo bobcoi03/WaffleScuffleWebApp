@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 # Keep frontend path last
@@ -24,8 +24,9 @@ urlpatterns = [
     path('mail-service-api/', include('mailServiceAPI.urls')),
     path('user-auth/', include('user.urls')),
     path('post/', include('post.urls')),
-    path('friendship/', include('friendship.urls'))
-
+    path('friendship/', include('friendship.urls')),
+    path('chat/', include('chatApp.urls')),
+    re_path(r'', include('django_private_chat2.urls', namespace='django_private_chat2')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,
