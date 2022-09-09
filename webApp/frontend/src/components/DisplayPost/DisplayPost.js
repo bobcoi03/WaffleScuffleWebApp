@@ -466,6 +466,61 @@ class DisplayPost extends Component {
 		return d.toLocaleString()
 	}
 
+	RenderDate = () => {
+		return (
+			<Tooltip title={this.ConvertPublishedDatetime()}>
+				<Typography variant="caption">
+					{this.timeSince() + ' ago'}
+				</Typography>
+			</Tooltip>
+		)
+	}
+
+	timeSince = () => {
+	  const date = new Date(this.props.publishedDatetime)
+
+	  if (typeof date !== 'object') {
+	    date = new Date(date);
+	  }
+
+	  var seconds = Math.floor((new Date() - date) / 1000);
+	  var intervalType;
+
+	  var interval = Math.floor(seconds / 31536000);
+	  if (interval >= 1) {
+	    intervalType = 'year';
+	  } else {
+	    interval = Math.floor(seconds / 2592000);
+	    if (interval >= 1) {
+	      intervalType = 'month';
+	    } else {
+	      interval = Math.floor(seconds / 86400);
+	      if (interval >= 1) {
+	        intervalType = 'day';
+	      } else {
+	        interval = Math.floor(seconds / 3600);
+	        if (interval >= 1) {
+	          intervalType = "hour";
+	        } else {
+	          interval = Math.floor(seconds / 60);
+	          if (interval >= 1) {
+	            intervalType = "minute";
+	          } else {
+	            interval = seconds;
+	            intervalType = "second";
+	          }
+	        }
+	      }
+	    }
+	  }
+
+	  if (interval > 1 || interval === 0) {
+	    intervalType += 's';
+	  }
+
+	  return interval + ' ' + intervalType;
+	};
+
 	RenderCardMedia = () => {
 		if (this.state.pathToPostImage == 'A server error occurred.  Please contact the administrator.') {
 			return null
@@ -485,11 +540,12 @@ class DisplayPost extends Component {
 		const RenderText = this.RenderText
 		const RenderComments = this.RenderComments
 		const RenderExpand = this.RenderExpand
-		var RenderLikeButton = this.RenderLikeButton
+		let RenderLikeButton = this.RenderLikeButton
 		const RenderWriteComment = this.RenderWriteComment
 		const RenderShareSnackBar = this.RenderShareSnackBar
 		const RenderAvatar = this.RenderAvatar
 		const RenderCardMedia = this.RenderCardMedia
+		const RenderDate = this.RenderDate
 
 		if (!this.state.isLoaded) {
 			return (
@@ -506,7 +562,7 @@ class DisplayPost extends Component {
 							<CardHeader 
 								avatar={<RenderAvatar/>}
 								title={this.state.username}
-								subheader={this.ConvertPublishedDatetime()}
+								subheader=<RenderDate/>
 							/>
 
 								<RenderCardMedia/>

@@ -269,7 +269,7 @@ class DisplayProfile extends React.Component {
 			)
 		} else {
 			return (
-				<Box sx={{ width: '100%' }}>
+				<Box sx={{ width: '100%', marginTop: '7px', marginBottom: '7px'}}>
 					<Card sx={{boxShadow: 'none', background: 'transparent'}} variant="outlined">
 						<CardHeader
 							avatar={<RenderAvatar/>}

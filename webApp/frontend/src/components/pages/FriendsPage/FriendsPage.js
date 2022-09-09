@@ -315,8 +315,7 @@ class FriendsPage extends Component{
 									item
 									xs={12}
 									sm={12}
-									md={4}
-									container
+									md={6}
 									direction="row"
 									justifyContent="center"
 									alignItems="flex-start"
