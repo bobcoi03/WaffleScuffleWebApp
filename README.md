@@ -27,10 +27,10 @@ App setup
 4. cd webApp/frontend
 5. npm install
 6. cd webApp
-7. python3 manage.py createsuperuser
 7. python3 manage.py migrate
-8. python3 manage.py collectstatic
-9. python3 manage.py runserver
+8. python3 manage.py createsuperuser
+9. python3 manage.py collectstatic
+10. python3 manage.py runserver
 
 
 
