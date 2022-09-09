@@ -318,7 +318,7 @@ class FriendsPage extends Component{
 									md={6}
 									direction="row"
 									justifyContent="center"
-									alignItems="flex-start"
+									alignItems="center"
 								>
 									<Box>
 										<Tabs 

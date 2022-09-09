@@ -41,6 +41,7 @@ class NavBarSignedOut extends React.Component {
               {ENV.name}
             </Typography>
             <Button
+              size="small"
               variant="contained"
               component={Link}
               to="/signin"
@@ -49,6 +50,7 @@ class NavBarSignedOut extends React.Component {
               Log in
             </Button>
             <Button
+              size="small"
               variant="contained"
               component={Link}
               to="/signup"

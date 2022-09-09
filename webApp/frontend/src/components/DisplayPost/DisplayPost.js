@@ -12,6 +12,7 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
+
 import IconButton, { IconButtonProps }  from '@mui/material/IconButton'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -28,6 +29,9 @@ import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import { styled } from '@mui/material/styles'
 import { variables as ENV } from '../environmentVariables'
@@ -377,7 +381,7 @@ class DisplayPost extends Component {
 				<Tooltip title={this.state.expandMoreTitle} style={{marginLeft: "auto"}} onClick={this.handleExpandToggle}>
 					<span>
 						<IconButton>					      
-							<ExpandLessIcon color="secondary"/>
+							<ExpandLessIcon style={{ color: "#000000"}}/>
 						</IconButton>
 					</span>
 				</Tooltip>
@@ -387,7 +391,7 @@ class DisplayPost extends Component {
 				<Tooltip title={this.state.expandMoreTitle} style={{marginLeft: "auto"}} onClick={this.handleExpandToggle}>
 					<span>
 						<IconButton>					      
-							<ExpandMoreIcon color="secondary"/>
+							<ExpandMoreIcon style={{ color: "#000000"}}/>
 						</IconButton>
 					</span>
 				</Tooltip>
@@ -401,7 +405,7 @@ class DisplayPost extends Component {
 				<Tooltip title="unlike this">
 				    <span>
 					    <IconButton onClick={this.handleToggleLike}>
-					    	<ThumbUpIcon color="secondary" fontSize="small"/>
+					    	<FavoriteIcon style={{ color: "#000000"}} fontSize="small"/>
 						</IconButton>
 						<Typography variant="caption">
 							{this.state.likesNumber}
@@ -414,7 +418,7 @@ class DisplayPost extends Component {
 				<Tooltip title="like this">
 				    <span>
 						<IconButton onClick={this.handleToggleLike}>
-						    <ThumbUpOffAltIcon color="secondary" fontSize="small"/>
+						    <FavoriteBorderIcon style={{ color: "#000000"}} fontSize="small"/>
 						</IconButton>
 						<Typography variant="caption">
 							{this.state.likesNumber}
@@ -559,44 +563,37 @@ class DisplayPost extends Component {
 		return (
 			<div style={{width: '100%', marginTop:'7px', maxWidth: ENV.maxWidthDisplayPost}}>
 					<Card sx={{ width: '100%'}} variant="outlined">
-							<CardHeader 
-								avatar={<RenderAvatar/>}
-								title={this.state.username}
-								subheader=<RenderDate/>
-							/>
-
-								<RenderCardMedia/>
-								<CardContent>
-									<RenderText/>
-								    <CardActions disableSpacing>
-								    	<RenderLikeButton/>
-									    <Tooltip title="Replies" onClick={this.handleToggleComments}>
-									    	<span>
-									    		<IconButton>					      
-										        	<ChatOutlinedIcon color="secondary" fontSize="small"/>
-									    		</IconButton>
-									    		<Typography variant="caption">
-									    			{this.state.commentsData.length}
-									    		</Typography>
-									    	</span>
-									    </Tooltip>
-									    <Tooltip title="Write reply" onClick={this.handleToggleWriteComment}>
-									    	<span>
-									    		<IconButton>
-									    			<MapsUgcOutlinedIcon color="secondary" fontSize="small"/>
-									    		</IconButton>
-									    	</span>
-									    </Tooltip>
-									    <Tooltip title="Share this">
-									    	<span>
-									    		<IconButton onClick={this.handleToggleShare}>
-									          		<ShareIcon color="secondary" fontSize="small"/>
-									        	</IconButton>
-									    	</span>
-									    </Tooltip>
-									    <RenderExpand/>
-								    </CardActions>
-							    </CardContent>
+						<CardHeader 
+							avatar={<RenderAvatar/>}
+							title={this.state.username}
+							subheader=<RenderDate/>
+							action={<MoreHorizIcon fontSize="small"/>}
+						/>
+							<RenderCardMedia/>
+							<CardContent>
+								<RenderText/>
+								<CardActions disableSpacing>
+								    <RenderLikeButton/>
+									<Tooltip title="Replies" onClick={this.handleToggleComments}>
+									   	<span>
+									   		<IconButton>					      
+										        <ChatOutlinedIcon style={{ color: "#000000"}} fontSize="small"/>
+									    	</IconButton>
+									    	<Typography variant="caption">
+									    		{this.state.commentsData.length}
+									    	</Typography>
+									    </span>
+									</Tooltip>
+									<Tooltip title="Write reply" onClick={this.handleToggleWriteComment}>
+									    <span>
+									    	<IconButton>
+									    		<MapsUgcOutlinedIcon style={{ color: "#000000"}} fontSize="small"/>
+									    	</IconButton>
+									    </span>
+									</Tooltip>
+									<RenderExpand/>
+								</CardActions>
+							</CardContent>
 					</Card>
 				<RenderShareSnackBar/>
 				<RenderWriteComment/>
