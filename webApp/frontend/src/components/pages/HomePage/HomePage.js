@@ -118,7 +118,7 @@ class HomePage extends Component{
 				<div>
 					<ThemeProvider theme={theme}  sx={{ bgcolor:  '#1a237e'}}>
 						<NavBar username={userData['fields'].username} user_pk={userData.pk}/>
-						<Grid container omponent="main" sx={{ height:'100vh'}}>
+						<Grid container component="main" sx={{ height:'100vh'}}>
 							<Grid
 								item
 				          		xs={0}

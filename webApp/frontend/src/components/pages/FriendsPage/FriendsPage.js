@@ -156,7 +156,7 @@ class FriendsPage extends Component{
 	}
 
 	DisplayReceivedFriendRequestProfileList = () => {
-		var receivedFriendRequests = []
+		let receivedFriendRequests = []
 		for (var i = 0; i < this.state.receivedFriendRequestsData.length; i++) {
 			receivedFriendRequests.push(
 				<DisplayProfile

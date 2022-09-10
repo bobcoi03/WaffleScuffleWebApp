@@ -92,14 +92,14 @@ class DisplayProfile extends React.Component {
 		)
 		.then(res => res.text())
 		.then(data => {
-			var isBool = (data === 'true')
+			let isTrue = (data === 'true')
 
-			if (isBool == false) {
+			if (isTrue == false) {
 				this.ifUserHasSentFriendRequest()
 			}
 
 			this.setState({
-				areFriends: isBool
+				areFriends: isTrue
 			})
 		})
 	}
