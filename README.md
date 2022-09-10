@@ -26,9 +26,9 @@ App setup
 3. pip install -r requirements.txt #install pip dependancies
 4. cd webApp/frontend
 5. npm install
-6. cd webApp
-7. python3 manage.py createsuperuser
+6. cd ..
 7. python3 manage.py migrate
+7. python3 manage.py createsuperuser
 8. python3 manage.py collectstatic
 9. python3 manage.py runserver
 
