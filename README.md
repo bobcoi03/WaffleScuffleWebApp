@@ -5,16 +5,34 @@ Requires:
 Python3.6+
 Mysql 8
 
-To run locally
-1. cd webApp
-2. python3 manage.py runserver
-
 Initial setup
+
+Database setup
+
+0. Create a mysql user and database give user all privileges for that db
+1. SET environment variables
+2. RDS_DB_NAME=your db name
+3. RDS_USERNAME=username of mysql user
+4. RDS_PASSWORD=password of mysql user
+5. RDS_HOSTNAME=127.0.0.1
+6. RDS_PORT=3306
+
+------------------------------------------------------------
+
+App setup
+
 1. python3 -m venv env #create virtual environment
 2. source env/bin/activate #activate virtual environment
 3. pip install -r requirements.txt #install pip dependancies
-3. cd webApp
-3. python3 manage.py runserver
+4. cd webApp/frontend
+5. npm install
+6. cd ..
+7. python3 manage.py migrate
+7. python3 manage.py createsuperuser
+8. python3 manage.py collectstatic
+9. python3 manage.py runserver
+
+
 
 STEPS TO UPDATE TO EC2 Server
 1. npm run build in /frontend app

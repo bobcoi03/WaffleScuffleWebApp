@@ -46,7 +46,9 @@ class FriendsPage extends Component{
 			userData: [],
 			error: null,
 			friendsData: [],
-			tabValue: 0
+			tabValue: 0,
+			sentFriendRequestsData: [], // All users that user has sent friend request to
+			receivedFriendRequestsData: [] // All users that has sent friend request to user
 		}
 	}
 	componentDidMount() {
@@ -77,6 +79,9 @@ class FriendsPage extends Component{
 			}
 		)
 
+		this.getSentFriendRequestsData()
+		this.getReceivedFriendRequestsData()
+
 		fetch(ENV.url + '/user-auth/get-friends-user-objects',
 			{
 				headers: {
@@ -96,6 +101,7 @@ class FriendsPage extends Component{
 	}
 
 	DisplayProfileList = () => {
+		// Display all friends a user has
 		const { friendsData } = this.state
 		var friends = []
 		for (var i = 0; i < friendsData.length; i++) {
@@ -112,10 +118,111 @@ class FriendsPage extends Component{
 		)
 	}
 
+	getSentFriendRequestsData = () => {
+		// get data about users that the user has sent friend request to
+		fetch(ENV.url + '/user-auth/get-sent-friend-requests',
+			{
+				headers: {
+					"method": "GET",
+					"Accept": "application/json",
+					"Content-Type": "application/json"
+				}
+			}
+		)
+		.then(res => res.json())
+		.then(data => {
+			this.setState({
+				sentFriendRequestsData: data
+			})
+		})
+	}
+
+	getReceivedFriendRequestsData = () => {
+		fetch(ENV.url + '/user-auth/get-received-friend-requests',
+			{
+				headers: {
+					"method": "GET",
+					"Accept": "application/json",
+					"Content-Type": "application/json"
+				}
+			}
+		)
+		.then(res => res.json())
+		.then(data => {
+			this.setState({
+				receivedFriendRequestsData: data
+			})
+		})
+	}
+
+	DisplayReceivedFriendRequestProfileList = () => {
+		let receivedFriendRequests = []
+		for (var i = 0; i < this.state.receivedFriendRequestsData.length; i++) {
+			receivedFriendRequests.push(
+				<DisplayProfile
+					pk={this.state.receivedFriendRequestsData[i].pk}
+					username={this.state.receivedFriendRequestsData[i]['fields'].username}
+					key={this.state.receivedFriendRequestsData[i].pk}
+				/>
+			)
+		}
+		return (
+			<div style={{maxWidth: ENV.maxWidthDisplayPost}}>
+				{receivedFriendRequests}
+			</div>
+		)
+	}
+
+	DisplaySentFriendRequestProfileList = () => {
+		// Display all users that user has sent a friend request to
+		var sentFriendRequests = []
+		for (var i = 0; i < this.state.sentFriendRequestsData.length; i++) {
+			sentFriendRequests.push(
+				<DisplayProfile
+					pk={this.state.sentFriendRequestsData[i].pk}
+					username={this.state.sentFriendRequestsData[i]['fields'].username}
+					key={this.state.sentFriendRequestsData[i].pk}
+				/>
+			)
+		}
+		return (
+			<div style={{maxWidth: ENV.maxWidthDisplayPost}}>
+				{sentFriendRequests}
+			</div>
+		)
+	}
+
 	handleChangeTab = (event, newValue) => {
 		this.setState({
 			tabValue: newValue
 		})
+	}
+
+	MainDisplay = () => {
+		// Display based on this.state.tabValue
+		const DisplaySentFriendRequestProfileList = this.DisplaySentFriendRequestProfileList
+		const DisplayReceivedFriendRequestProfileList = this.DisplayReceivedFriendRequestProfileList
+		const DisplayProfileList = this.DisplayProfileList
+
+		if (this.state.tabValue == 0) {
+			if (this.state.friendsData.length == 0) {
+				return (<p>Go to the search icon to make some friends!</p>)
+			} else {
+				return (
+					<DisplayProfileList/>
+				)
+			}
+		} else if (this.state.tabValue == 1) {
+			return (
+				<div>
+					<div>Pending Sent friend requests</div>
+					<DisplaySentFriendRequestProfileList/>
+					<br/>
+					<div>Received friend requests</div>
+					<DisplayReceivedFriendRequestProfileList/>
+				</div>
+			)
+		}
 	}
 
 
@@ -123,6 +230,7 @@ class FriendsPage extends Component{
 
 		const { error, isLoaded, userData, friendsData } = this.state
 		const DisplayProfileList = this.DisplayProfileList
+		const MainDisplay = this.MainDisplay
 		if(!isLoaded) {
 			return (<LoadingPage/>)
 		} else if (userData['fields'] == undefined && isLoaded) {
@@ -175,8 +283,8 @@ class FriendsPage extends Component{
 											wrapped 
 										/>
 									</Tabs>
+									<MainDisplay/>
 								</Box>
-								<div style={{ flexGrow: 1 }}/>
 							</Grid>
 							<Grid
 								item
@@ -207,13 +315,33 @@ class FriendsPage extends Component{
 									item
 									xs={12}
 									sm={12}
-									md={4}
-									container
+									md={6}
 									direction="row"
 									justifyContent="center"
-									alignItems="flex-start"
+									alignItems="center"
 								>
-									<DisplayProfileList/>
+									<Box>
+										<Tabs 
+										value={this.state.tabValue}
+										onChange={this.handleChangeTab}
+										textColor="#000000"
+										variant="scrollable"
+  										scrollButtons="auto"
+  									
+										>
+										<Tab icon={<Tooltip title="friends">
+														<PeopleOutlineIcon sx={{ color: "#000000"}}/>
+												   </Tooltip>}
+											wrapped 
+										/>
+										<Tab icon={<Tooltip title="friend requests">
+														<PersonAddAlt1OutlinedIcon/>
+												   </Tooltip>}
+											wrapped 
+										/>
+									</Tabs>
+									<MainDisplay/>
+								</Box>
 								</Grid>
 								<Grid
 									item

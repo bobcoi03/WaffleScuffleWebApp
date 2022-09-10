@@ -6,12 +6,18 @@ bin-release/
 
 # Other files and folders
 .settings/
-
+node_modules
+node_mudles/
+__pycache__
+__pycache__/
+env
+env/
 # Executables
 *.swf
 *.air
 *.ipa
 *.apk
+*.pyc
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important

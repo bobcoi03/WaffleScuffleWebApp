@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -27,7 +28,8 @@ class DisplayProfile extends React.Component {
 						pathToProfileImage: "",
 						areFriends: null,
 						toggleDisplaySnackBar: false,
-						friendRequestResponseMessage: ""
+						friendRequestResponseMessage: "",
+						ifUserHasSentFriendRequest: null
 		}
 	}
 
@@ -90,16 +92,41 @@ class DisplayProfile extends React.Component {
 		)
 		.then(res => res.text())
 		.then(data => {
+			let isTrue = (data === 'true')
+
+			if (isTrue == false) {
+				this.ifUserHasSentFriendRequest()
+			}
+
+			this.setState({
+				areFriends: isTrue
+			})
+		})
+	}
+
+	ifUserHasSentFriendRequest = () => {
+		// if requesting user and user are not friends
+		// Check if this.props.pk user has sent a friend request to requesting user
+		fetch(ENV.url + `/user-auth/if-user-pk-has-sent-friend-request/user_pk=${this.props.pk}`,
+			{
+				headers: {
+					"method": "GET",
+					"Accept": "text/plain",
+					"Content-Type": "text/plain"
+				}
+			}
+		)
+		.then(res => res.text())
+		.then(data => {
 			var isBool = (data === 'true')
 			this.setState({
-				areFriends: isBool
+				ifUserHasSentFriendRequest: isBool
 			})
 		})
 	}
 
 
-
-	sendFriendRequest = async () => {
+	sendFriendRequest = () => {
 		fetch(ENV.url + `/user-auth/send-friend-request/user_pk=${this.props.pk}`,
 			{
 				method: "POST",
@@ -122,6 +149,26 @@ class DisplayProfile extends React.Component {
 			toggleDisplaySnackBar: true
 		})
 
+	}
+
+	acceptFriendRequest = () => {
+		fetch(ENV.url + `/user-auth/accept-friend-request/user_pk=${this.props.pk}`,
+			{
+				method: "POST",
+				body: null,
+				headers: {
+					"X-CSRFToken": getCookie("csrftoken"),
+			 		"Accept": "text/plain"
+				}
+			}
+		)
+		.then(res => res.text())
+		.then(data => {
+			this.setState({
+				friendRequestResponseMessage: data,
+				toggleDisplaySnackBar: true
+			})
+		})
 	}
 
 	RenderAvatar = () => {
@@ -152,6 +199,12 @@ class DisplayProfile extends React.Component {
 		// else add friend button
 		if (this.state.areFriends) {
 			return null
+		} else if (this.state.ifUserHasSentFriendRequest) {
+			return (
+				<Button size="small" onClick={this.acceptFriendRequest}>
+					Accept friend request
+				</Button>
+			)
 		} else {
 			return (
 				<Tooltip title="Send friend request">
@@ -159,7 +212,7 @@ class DisplayProfile extends React.Component {
 						<AddIcon/>
 					</IconButton>
 				</Tooltip>
-				)
+			)
 		}
 	}
 
@@ -216,7 +269,7 @@ class DisplayProfile extends React.Component {
 			)
 		} else {
 			return (
-				<Box sx={{ width: '100%' }}>
+				<Box sx={{ width: '100%', marginTop: '7px', marginBottom: '7px'}}>
 					<Card sx={{boxShadow: 'none', background: 'transparent'}} variant="outlined">
 						<CardHeader
 							avatar={<RenderAvatar/>}

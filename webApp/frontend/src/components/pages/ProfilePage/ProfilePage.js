@@ -138,7 +138,7 @@ class ProfilePage extends Component{
 				<div>
 					<ThemeProvider theme={theme}>
 						<NavBarSignedOut/>
-						<Grid container spacing={3} component="main" sx={{ height:'100vh'}}>
+						<Grid container component="main" sx={{ height:'100vh'}}>
 							<Grid
 								item
 				          		xs={0}
@@ -176,7 +176,7 @@ class ProfilePage extends Component{
 				<div>
 					<ThemeProvider theme={theme}>
 						<NavBar/>
-						<Grid container spacing={3} component="main" sx={{ height:'100vh'}}>
+						<Grid container component="main" sx={{ height:'100vh'}}>
 							<Grid
 								item
 				          		xs={false}
@@ -194,6 +194,7 @@ class ProfilePage extends Component{
 						            alignItems: 'center'
 								}}
 							>
+								<DisplayProfileHeader username={this.props.params.username}/>
 								<Typography>User has no posts</Typography>
 							</Grid>
 							<Grid
@@ -212,7 +213,7 @@ class ProfilePage extends Component{
 				<div>
 					<ThemeProvider theme={theme}>
 						<NavBar username={userData['fields'].username} user_pk={userData.pk}/>
-						<Grid container spacing={3} component="main" sx={{ height:'100vh'}}>
+						<Grid container component="main" sx={{ height:'100vh'}}>
 							<Grid
 								item
 				          		xs={0}
